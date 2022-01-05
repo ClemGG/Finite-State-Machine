@@ -1,7 +1,9 @@
 # Finite-State-Machine
 A Generic Finite State Machine System made in Unity 2021.
 This asset allows you to implement a generic state machine to implement a behaviour hierarchy for your projects (controllers, UI panels, etc.)
-This system is very flexible and classes can be overidden to suit your needs. It is recommended to use the custom script template instead of creating new states from scratch (Right Click > Create > Custom Script Templates > State Machine > New State Script). This will allow your script to inherit all necessary methods for ease of use.
+This system is very flexible and classes can be overidden to suit your needs. You can create as many 'root states' as you want for the main behaviour of your system, which in turn can have as many sub-states as you want for implementing specific functions of the desired behaviour (each state can only have 1 super-state and 1 sub-state at a time).
+
+It is recommended to use the custom script template instead of creating new states from scratch (Right Click > Create > Custom Script Templates > State Machine > New State Script). This will allow your script to inherit all necessary methods for ease of use.
 
 This system implements Object Pooling to recycle used states instead of recreating them each time in order to avoid unecessary garbage collection and memory issues. The Object Pooling system uses generic methods as well to allow you to store any kind of classes (including custom classes, MonoBehaviours and ScriptableObjects) by specifying a size and a creation function in the StateMachienFactory's constructor.
 
