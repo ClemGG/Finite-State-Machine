@@ -1,37 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace Project.StateMachine
-
-public class #SCRIPTNAME# : BaseState<TContext, TInput>
 {
-    #region Constructor & IPooled
+    public class #SCRIPTNAME# : BaseState<TContext, TInput>
+    {
+        #region Constructor & IPooled
 
         public #SCRIPTNAME#(TContext context, TInput input, StateMachineFactory<TContext, TInput> factory) : base(context, input, factory)
         {
-            #NOTRIM#
-
             //Change _isRootState here
         }
+
         #endregion
 
 
         #region State Methods
 
-        public virtual void Enter()
+        public override void Enter()
         {
             base.Enter();
         }
-        public virtual void Exit()
+        public override void Exit()
         {
             base.Exit();
         }
-        public virtual void Update()
+        public override void Update()
         {
             base.Update();
         }
-        public virtual void FixedUpdate() 
+        public override void FixedUpdate() 
         {
             base.FixedUpdate();
         }
