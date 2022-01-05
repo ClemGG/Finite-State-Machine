@@ -1,0 +1,53 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Project.StateMachine
+
+public class #SCRIPTNAME# : BaseState<TContext, TInput>
+{
+    #region Constructor & IPooled
+
+        public #SCRIPTNAME#(TContext context, TInput input, StateMachineFactory<TContext, TInput> factory) : base(context, input, factory)
+        {
+            #NOTRIM#
+
+            //Change _isRootState here
+        }
+        #endregion
+
+
+        #region State Methods
+
+        public virtual void Enter()
+        {
+            base.Enter();
+        }
+        public virtual void Exit()
+        {
+            base.Exit();
+        }
+        public virtual void Update()
+        {
+            base.Update();
+        }
+        public virtual void FixedUpdate() 
+        {
+            base.FixedUpdate();
+        }
+
+        //Goes from a RootState to another
+        public override void CheckSwitchStates()
+        {
+            
+        }
+
+        //Assigns a SubState if needed
+        public override void InitSubState()
+        {
+            
+        } 
+
+        #endregion
+    }
+}
