@@ -1,15 +1,18 @@
-namespace Project.StateMachine
+using Project.StateMachine;
+using Project.Tester.Inputs;
+
+namespace Project.Tester
 {
-    public class #SCRIPTNAME# : BaseState<TContext, TInput>
+    public class RedCubeState : BaseState<StateMachineTester, TesterInput>
     {
         #region Constructor & IPooled
 
-        public #SCRIPTNAME#() : base(null, null, null)
+        public RedCubeState() : base(null, null, null)
         {
-            #NOTRIM#
+
         }
 
-        public #SCRIPTNAME#(TContext context, TInput input, StateMachineFactory<TContext, TInput> factory) : base(context, input, factory)
+        public RedCubeState(StateMachineTester context, TesterInput input, StateMachineFactory<StateMachineTester, TesterInput> factory) : base(context, input, factory)
         {
             //Change _isRootState here
         }
@@ -21,6 +24,8 @@ namespace Project.StateMachine
 
         protected override void Enter()
         {
+            //When the state is entered, we change the material's color to red.
+            _ctx.Renderer.sharedMaterial.SetColor("_Color", _ctx._cubeColor);
             base.Enter();
         }
         protected override void Exit()

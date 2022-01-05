@@ -1,0 +1,45 @@
+{
+    "name": "TesterControls",
+    "maps": [
+        {
+            "name": "Tester",
+            "id": "033074cd-c27e-4584-994f-cc6f792cdd21",
+            "actions": [
+                {
+                    "name": "Swap State",
+                    "type": "Button",
+                    "id": "6e5270db-585d-4452-bb12-e55490b40e6f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "62f3f49d-c1c2-4217-825e-67027f6c1af0",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Swap State",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Keyboard",
+            "bindingGroup": "Keyboard",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

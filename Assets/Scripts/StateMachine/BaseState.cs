@@ -40,23 +40,26 @@ namespace Project.StateMachine
 
         #region State Methods
 
-        public virtual void Enter()
+        protected virtual void Enter()
         {
             InitSubState();
         }
-        public virtual void Exit()
+        protected virtual void Exit()
         {
             _factory.ReturnState(_ctx, _input, this);
         }
-        public virtual void Update()
+        protected virtual void Update()
         {
             CheckSwitchStates();
         }
-        public virtual void FixedUpdate() 
+        protected virtual void FixedUpdate() 
         {
+
         }
-        public abstract void CheckSwitchStates();   //Goes from a RootState to another
-        public abstract void InitSubState();    //Assigns a SubState if needed
+        ///Changes the current state (root or not) when all conditions are met
+        protected abstract void CheckSwitchStates();   
+        ///Assigns a SubState if needed when we enter the state
+        protected abstract void InitSubState();    
 
 
 

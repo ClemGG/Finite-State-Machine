@@ -1,0 +1,21 @@
+{
+    "name": "Project.Tester",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9315681ad75ca7c4eba866b7abbdec84",
+        "GUID:af9f8754dd6902c44b3c8c301f986dff"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WindowsStandalone32",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
