@@ -58,7 +58,7 @@ namespace Project.StateMachine
         }
         ///Changes the current state (root or not) when all conditions are met
         protected abstract void CheckSwitchStates();   
-        ///Assigns a SubState if needed when we enter the state
+        ///Assigns a SubState if needed
         protected abstract void InitSubState();    
 
 
@@ -116,15 +116,15 @@ namespace Project.StateMachine
             }
 
         }
-        protected void SetSuperState(BaseState<TContext, TInput> newSuperState) 
-        {
-            _curSuperState = newSuperState;
-        }
         protected void SetSubState(BaseState<TContext, TInput> newSubState)
         {
             _curSubState = newSubState;
             newSubState.SetSuperState(this);
             newSubState.Enter();
+        }
+        private void SetSuperState(BaseState<TContext, TInput> newSuperState)
+        {
+            _curSuperState = newSuperState;
         }
 
         #endregion
