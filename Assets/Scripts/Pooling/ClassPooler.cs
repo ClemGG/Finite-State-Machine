@@ -5,7 +5,8 @@ using UnityEngine.Pool;
 
 //Used to instantiate any type of class, including those not deriving from MonoBehaviour or ScriptableObject
 
-namespace Project.Pool {
+namespace Project.Pool
+{
 
 
 
@@ -13,26 +14,25 @@ namespace Project.Pool {
     public class ClassPooler<TBase> where TBase : class
     {
 
-        [SerializeField] private Dictionary<string, ObjectPool<TBase>> poolDictionary;
+        [SerializeField] private Dictionary<string, ObjectPool<TBase>> _poolDictionary;
 
 
         #region Constructors
 
         public ClassPooler(params (string key, int defaultCapacity, Func<TBase> createFunc)[] newPools)
         {
-            poolDictionary = new Dictionary<string, ObjectPool<TBase>>(newPools.Length);
+            _poolDictionary = new Dictionary<string, ObjectPool<TBase>>(newPools.Length);
             AddPools(newPools);
         }
 
 
         private ObjectPool<TBase> CreatePool(int defaultCapacity, Func<TBase> createFunc)
         {
-
             ObjectPool<TBase> newPool = new ObjectPool<TBase>(
                 createFunc: () => createFunc.Invoke(),
                 actionOnGet: (obj) => Dequeue(obj),
                 actionOnRelease: (obj) => Enqueue(obj),
-                collectionCheck: true,
+                collectionCheck: false,
                 defaultCapacity: defaultCapacity
                 );
 
@@ -44,7 +44,7 @@ namespace Project.Pool {
         {
             for (int i = 0; i < newPools.Length; i++)
             {
-                poolDictionary.Add(newPools[i].key, CreatePool(newPools[i].defaultCapacity, newPools[i].createFunc));
+                _poolDictionary.Add(newPools[i].key, CreatePool(newPools[i].defaultCapacity, newPools[i].createFunc));
             }
 
         }
@@ -54,10 +54,10 @@ namespace Project.Pool {
         {
             for (int i = 0; i < keys.Length; i++)
             {
-                if (poolDictionary.ContainsKey(keys[i]))
+                if (_poolDictionary.ContainsKey(keys[i]))
                 {
-                    poolDictionary[keys[i]].Dispose();
-                    poolDictionary.Remove(keys[i]);
+                    _poolDictionary[keys[i]].Dispose();
+                    _poolDictionary.Remove(keys[i]);
                 }
             }
         }
@@ -73,7 +73,15 @@ namespace Project.Pool {
         private static void Dequeue(TBase obj)
         {
             //(IDequeued)obj causes an InvalidCastException if obj does not derive from the interface
-            if (obj is IDequeued pooledObj)
+            if(obj is GameObject go)
+            {
+                IDequeued[] ids = go.GetComponents<IDequeued>();
+                for (int i = 0; i < ids.Length; i++)
+                {
+                    ids[i].OnDequeued();
+                }
+            }
+            else if (obj is IDequeued pooledObj)
             {
                 pooledObj.OnDequeued();
             }
@@ -81,6 +89,14 @@ namespace Project.Pool {
         private static void Enqueue(TBase obj)
         {
             //(IEnqueued)obj causes an InvalidCastException if obj does not derive from the interface
+            if (obj is GameObject go)
+            {
+                IEnqueued[] ids = go.GetComponents<IEnqueued>();
+                for (int i = 0; i < ids.Length; i++)
+                {
+                    ids[i].OnEnqueued();
+                }
+            }
             if (obj is IEnqueued pooledObj)
             {
                 pooledObj.OnEnqueued();
@@ -88,20 +104,34 @@ namespace Project.Pool {
         }
 
 
-
-
-        public TChild GetFromPool<TChild>(string key = null) where TChild : TBase, new()
+        public PooledObject<TChild> UsingFromPool<TChild>(string key = null) where TChild : class, TBase
         {
 
             if (key is null) key = typeof(TChild).Name;
 
-            if (!poolDictionary.ContainsKey(key))
+            if (!_poolDictionary.ContainsKey(key))
             {
-                Debug.LogError($"Pooler Error : The key {key} does not exist.");
+                Debug.LogError($"Pooler Error : The key '{key}' does not exist.");
                 return default;
             }
 
-            TChild obj = (TChild)poolDictionary[key].Get();
+            ObjectPool<TChild> pool = _poolDictionary[key] as ObjectPool<TChild>;
+
+            return new PooledObject<TChild>(pool.Get(), pool);
+        }
+
+        public TChild GetFromPool<TChild>(string key = null) where TChild : TBase
+        {
+
+            if (key is null) key = typeof(TChild).Name;
+
+            if (!_poolDictionary.ContainsKey(key))
+            {
+                Debug.LogError($"Pooler Error : The key '{key}' does not exist.");
+                return default;
+            }
+
+            TChild obj = (TChild)_poolDictionary[key].Get();
 
 
             return obj;
@@ -111,13 +141,13 @@ namespace Project.Pool {
         {
             if(key is null) key = obj.GetType().Name;
 
-            if (!poolDictionary.ContainsKey(key))
+            if (!_poolDictionary.ContainsKey(key))
             {
-                Debug.LogError($"Pooler Error : The key {key} does not exist.");
+                Debug.LogError($"Pooler Error : The key '{key}' does not exist.");
                 return;
             }
 
-            poolDictionary[key].Release(obj);
+            _poolDictionary[key].Release(obj);
         }
 
         #endregion
