@@ -14,7 +14,7 @@ namespace Project.Pool
     public class ClassPooler<TBase> where TBase : class
     {
 
-        [SerializeField] private Dictionary<string, ObjectPool<TBase>> _poolDictionary;
+        [SerializeField] private Dictionary<string, ObjectPool<TBase>> _poolDictionary { get; set; }
 
 
         #region Constructors
