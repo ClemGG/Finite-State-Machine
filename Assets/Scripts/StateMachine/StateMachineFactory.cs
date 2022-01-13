@@ -14,7 +14,6 @@ namespace Project.StateMachine
         #region Accessors
 
         public BaseState<TContext, TInput> CurState { get; set; }
-        private TContext _ctx { get; set; }
         private ClassPooler<BaseState<TContext, TInput>> _statesPooler { get; set; }
 
         #endregion
@@ -24,7 +23,6 @@ namespace Project.StateMachine
 
         public StateMachineFactory(TContext currentContext, params (string key, int defaultCapacity, Func<BaseState<TContext, TInput>> createFunc)[] pools)
         {
-            _ctx = currentContext;
             _statesPooler = new ClassPooler<BaseState<TContext, TInput>>(pools);
         }
 
