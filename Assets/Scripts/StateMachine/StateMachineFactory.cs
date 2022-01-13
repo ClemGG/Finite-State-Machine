@@ -21,7 +21,7 @@ namespace Project.StateMachine
 
         #region Public Methods
 
-        public StateMachineFactory(TContext currentContext, params (string key, int defaultCapacity, Func<BaseState<TContext, TInput>> createFunc)[] pools)
+        public StateMachineFactory(params (string key, int defaultCapacity, Func<BaseState<TContext, TInput>> createFunc)[] pools)
         {
             _statesPooler = new ClassPooler<BaseState<TContext, TInput>>(pools);
         }

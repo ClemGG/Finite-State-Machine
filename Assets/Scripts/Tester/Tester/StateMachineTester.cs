@@ -66,7 +66,6 @@ namespace Project.Tester
             //each time we want to change the name of a state.
             _factory = new StateMachineFactory<StateMachineTester, TesterInput>
                 (
-                    this,
                     (nameof(SphereState), 1, () => new SphereState(this, _input, _factory)),
                     (nameof(CubeState), 1, () => new CubeState(this, _input, _factory)),
                     (nameof(RedCubeState), 1, () => new RedCubeState(this, _input, _factory))
