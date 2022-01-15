@@ -1,6 +1,7 @@
 using UnityEngine;
 using Project.StateMachine;
 using Project.Tester.Inputs;
+using Project.Pool;
 
 namespace Project.Tester
 {
@@ -66,9 +67,9 @@ namespace Project.Tester
             //each time we want to change the name of a state.
             _factory = new StateMachineFactory<StateMachineTester, TesterInput>
                 (
-                    (nameof(SphereState), 1, () => new SphereState(this, _input, _factory)),
-                    (nameof(CubeState), 1, () => new CubeState(this, _input, _factory)),
-                    (nameof(RedCubeState), 1, () => new RedCubeState(this, _input, _factory))
+                    new Pool<BaseState<StateMachineTester, TesterInput>>(nameof(SphereState), 1, () => new SphereState(this, _input, _factory)),
+                    new Pool<BaseState<StateMachineTester, TesterInput>>(nameof(CubeState), 1, () => new CubeState(this, _input, _factory)),
+                    new Pool<BaseState<StateMachineTester, TesterInput>>(nameof(RedCubeState), 1, () => new RedCubeState(this, _input, _factory))
                 );
 
             _factory.CurState = _factory.GetState<SphereState>(this, _input);
