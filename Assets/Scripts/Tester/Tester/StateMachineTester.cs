@@ -14,7 +14,7 @@ namespace Project.Tester
         #region State Machine Fields
 
         private TesterInput _input { get; set; }
-        private StateMachineFactory<StateMachineTester, TesterInput> _factory { get; set; }
+        private StateMachine<StateMachineTester, TesterInput> _factory { get; set; }
 
         #endregion
 
@@ -65,7 +65,7 @@ namespace Project.Tester
 
             //The 'tags' paramters are set dynamically so that we don't have to go back to this script
             //each time we want to change the name of a state.
-            _factory = new StateMachineFactory<StateMachineTester, TesterInput>
+            _factory = new StateMachine<StateMachineTester, TesterInput>
                 (
                     new Pool<BaseState<StateMachineTester, TesterInput>>(nameof(SphereState), 1, () => new SphereState(this, _input, _factory)),
                     new Pool<BaseState<StateMachineTester, TesterInput>>(nameof(CubeState), 1, () => new CubeState(this, _input, _factory)),

@@ -12,7 +12,7 @@ namespace Project.Tester
 
         }
 
-        public RedCubeState(StateMachineTester context, TesterInput input, StateMachineFactory<StateMachineTester, TesterInput> factory) : base(context, input, factory)
+        public RedCubeState(StateMachineTester context, TesterInput input, StateMachine<StateMachineTester, TesterInput> factory) : base(context, input, factory)
         {
             //Change _isRootState here
         }

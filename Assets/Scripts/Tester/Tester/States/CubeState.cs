@@ -19,7 +19,7 @@ namespace Project.Tester
 
         }
 
-        public CubeState(StateMachineTester context, TesterInput input, StateMachineFactory<StateMachineTester, TesterInput> factory) : base(context, input, factory)
+        public CubeState(StateMachineTester context, TesterInput input, StateMachine<StateMachineTester, TesterInput> factory) : base(context, input, factory)
         {
             //Change _isRootState here
             _isRootState = true;

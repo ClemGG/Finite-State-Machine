@@ -19,7 +19,7 @@ namespace Project.Tester
 
         }
 
-        public SphereState(StateMachineTester context, TesterInput input, StateMachineFactory<StateMachineTester, TesterInput> factory) : base(context, input, factory)
+        public SphereState(StateMachineTester context, TesterInput input, StateMachine<StateMachineTester, TesterInput> factory) : base(context, input, factory)
         {
             //Change _isRootState here
             _isRootState = true;
