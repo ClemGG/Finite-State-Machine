@@ -16,11 +16,6 @@ namespace Project.Tester
 
         public SphereState() : base(null, null, null)
         {
-
-        }
-
-        public SphereState(StateMachineTester context, TesterInput input, StateMachine<StateMachineTester, TesterInput> factory) : base(context, input, factory)
-        {
             //Change _isRootState here
             _isRootState = true;
         }
@@ -34,29 +29,22 @@ namespace Project.Tester
         {
             //When the state is entered, we change the mesh to a sphere and we color it in blue.
             _ctx.Filter.mesh = _ctx._sphereMesh;
-            _ctx.Renderer.sharedMaterial.SetColor("_Color", _ctx._sphereColor);
-            base.Enter();
+            _ctx.Renderer.material.SetColor("_Color", _ctx._sphereColor);
         }
         protected override void Exit()
         {
             //When the state is exited, we reset all modified values if necessary for the next state.
             _ctx.T.localScale = Vector3.one;
-
-            base.Exit();
         }
         protected override void Update()
         {
             //Sets the value of the new scale between O and 3 over time.
             _pingPongValue = Mathf.PingPong(Time.time * _ctx._scaleSpeed, 3f);
-
-            base.Update();
         }
         protected override void FixedUpdate() 
         {
             //Sets the value of the new scale over time.
             _ctx.T.localScale = Vector3.one * _pingPongValue;
-
-            base.FixedUpdate();
         }
         protected override void CheckSwitchStates()
         {

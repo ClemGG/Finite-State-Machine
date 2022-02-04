@@ -6,12 +6,8 @@ namespace Project.StateMachine
 
         public #SCRIPTNAME#() : base(null, null, null)
         {
-            #NOTRIM#
-        }
-
-        public #SCRIPTNAME#(TContext context, TInput input, StateMachineFactory<TContext, TInput> factory) : base(context, input, factory)
-        {
             //Change _isRootState here
+            //_isRootState = true;
         }
 
         #endregion

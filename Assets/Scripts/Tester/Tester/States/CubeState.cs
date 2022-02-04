@@ -16,11 +16,6 @@ namespace Project.Tester
 
         public CubeState() : base (null, null, null)
         {
-
-        }
-
-        public CubeState(StateMachineTester context, TesterInput input, StateMachine<StateMachineTester, TesterInput> factory) : base(context, input, factory)
-        {
             //Change _isRootState here
             _isRootState = true;
         }
@@ -35,25 +30,16 @@ namespace Project.Tester
             //When the state is entered, we change the mesh to a cube.
             //We change the color in the sub-state for demonstration purposes.
             _ctx.Filter.mesh = _ctx._cubeMesh;
-            base.Enter();
         }
         protected override void Exit()
         {
             //When the state is exited, we reset all modified values if necessary for the next state.
             _ctx.T.rotation = Quaternion.identity;
-
-            base.Exit();
-        }
-        protected override void Update()
-        {
-            base.Update();
         }
         protected override void FixedUpdate() 
         {
             //Spins the cube on the Y axis
             _ctx.T.Rotate(Vector3.up, _ctx._spinSpeed * Time.fixedDeltaTime);
-
-            base.FixedUpdate();
         }
         protected override void CheckSwitchStates()
         {
