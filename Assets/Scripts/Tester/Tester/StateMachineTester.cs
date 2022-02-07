@@ -67,24 +67,26 @@ namespace Project.Tester
             //each time we want to change the name of a state.
             _factory = new StateMachine<StateMachineTester, TesterInput>
                 (
-                    new Pool<BaseState<StateMachineTester, TesterInput>>(nameof(SphereState), 1, () => new SphereState()),
-                    new Pool<BaseState<StateMachineTester, TesterInput>>(nameof(CubeState), 1, () => new CubeState()),
-                    new Pool<BaseState<StateMachineTester, TesterInput>>(nameof(RedCubeState), 1, () => new RedCubeState())
+                    this,
+                    _input,
+                    new Pool<State>(nameof(SphereState), 1, () => new SphereState()),
+                    new Pool<State>(nameof(CubeState), 1, () => new CubeState()),
+                    new Pool<State>(nameof(RedCubeState), 1, () => new RedCubeState())
                 );
 
-            _factory.Init<SphereState>(this, _input);
+            _factory.Init<SphereState>();
         }
 
         // Update is called once per frame
         void Update()
         {
             _input.Update();
-            _factory.CurState.UpdateStates();
+            _factory.Update();
         }
 
         private void FixedUpdate()
         {
-            _factory.CurState.FixedUpdateStates();
+            _factory.FixedUpdate();
         }
 
         #endregion

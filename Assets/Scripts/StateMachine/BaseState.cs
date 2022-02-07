@@ -7,26 +7,20 @@ namespace Project.StateMachine
     /// </summary>
     /// <typeparam name="TContext">The script holding all the values to edit.</typeparam>
     /// <typeparam name="TInput">The Type of the InputSystem to use (Keyboard, Controller, etc.)</typeparam>
-    public abstract class BaseState<TContext, TInput>
+    public abstract class BaseState<TContext, TInput> : State
     {
         #region Protected Fields
 
-        protected bool _isRootState { private get; set; } = false;
         protected TContext _ctx { get; private set; }
         protected TInput _input { get; private set; }
         protected StateMachine<TContext, TInput> _factory { get; private set; }
-        protected BaseState<TContext, TInput> _curSubState { get; set; }
+        private BaseState<TContext, TInput> _curSubState { get; set; }
         private BaseState<TContext, TInput> _curSuperState { get; set; }
 
         #endregion
 
         #region Constructor & IPooled
-
-        public BaseState(TContext context, TInput input, StateMachine<TContext, TInput> factory)
-        {
-            SetContextAndInput(context, input, factory);
-        }
-
+        
 
         //Sets TContext, TInput and the factory manually when we retrieve a state from the factory
         public void SetContextAndInput(TContext context, TInput input, StateMachine<TContext, TInput> factory)
@@ -41,11 +35,6 @@ namespace Project.StateMachine
 
         #region State Methods
 
-
-        protected virtual void Enter() { }
-        protected virtual void Exit() { }
-        protected virtual void Update() { }
-        protected virtual void FixedUpdate() { }
 
 
         ///Changes the current state (root or not) when all conditions are met
@@ -90,7 +79,7 @@ namespace Project.StateMachine
 
         
 
-        protected void SwitchState(BaseState<TContext, TInput> newState)
+        protected void SwitchState<TState>() where TState : BaseState<TContext, TInput>, new()
         {
             //Quits the current state
             ExitStates();
@@ -100,18 +89,18 @@ namespace Project.StateMachine
             if (_isRootState)
             {
                 //Enters the new state
-                newState.EnterStates();
-                _factory.CurState = newState;
+                _factory.Init<TState>();
             }
             //Otherwise, we transfer that state's SuperState to the new state
             else if(_curSuperState != null)
             {
-                _curSuperState.SetSubState(newState);
+                _curSuperState.SetSubState<TState>();
             }
 
         }
-        protected void SetSubState(BaseState<TContext, TInput> newSubState)
+        protected void SetSubState<TState>() where TState : BaseState<TContext, TInput>, new()
         {
+            BaseState<TContext, TInput> newSubState = _factory.GetState<TState>();
             _curSubState = newSubState;
             newSubState.SetSuperState(this);
             newSubState.EnterStates();

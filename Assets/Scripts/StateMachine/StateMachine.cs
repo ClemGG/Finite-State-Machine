@@ -4,7 +4,7 @@ namespace Project.StateMachine
 {
 
     /// <summary>
-    /// This class will be in charge of instantiating and pooling all States of our StateMachine
+    /// This class will be in charge of instantiating and pooling all States of our StateMachine.
     /// </summary>
     /// <typeparam name="TContext">The script holding all the values to edit.</typeparam>
     /// <typeparam name="TInput">The Type of the InputSystem to use (Keyboard, Controller, etc.)</typeparam>
@@ -12,50 +12,74 @@ namespace Project.StateMachine
     {
         #region Accessors
 
-        public BaseState<TContext, TInput> CurState { get; set; }
-        private ClassPooler<BaseState<TContext, TInput>> _statesPooler { get; set; }
+        private BaseState<TContext, TInput> CurState { get; set; }
+        private TContext _ctx { get; set; }
+        private TInput _input { get; set; }
+        private ClassPooler<State> _statesPooler { get; set; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Use this if multiple factories use the same ClassPooler
+        /// </summary>
+        public StateMachine(TContext context, TInput input, ClassPooler<State> statesPooler)
+        {
+            _ctx = context;
+            _input = input;
+            _statesPooler = statesPooler;
+        }
+
+        /// <summary>
+        /// Use this if this factory onle needs its own pools
+        /// </summary>
+        public StateMachine(TContext context, TInput input, params Pool<State>[] pools)
+        {
+            _ctx = context;
+            _input = input;
+            _statesPooler = new ClassPooler<State>(pools);
+        }
 
         #endregion
 
 
         #region Public Methods
 
-        /// <summary>
-        /// Uses the empty state constructors if this factory directly uses a ClassPooler from elsewhere
-        /// </summary>
-        public StateMachine(ClassPooler<BaseState<TContext, TInput>> statesPooler)
-        {
-            _statesPooler = statesPooler;
-        }
-        
-        /// <summary>
-        /// Uses the parametered state constructors if this factory creates its own pools
-        /// </summary>
-        public StateMachine(params Pool<BaseState<TContext, TInput>>[] pools)
-        {
-            _statesPooler = new ClassPooler<BaseState<TContext, TInput>>(pools);
-        }
 
 
-        public BaseState<TContext, TInput> GetState<TState>(TContext context, TInput input, string key = null) where TState : BaseState<TContext, TInput>, new()
+        public BaseState<TContext, TInput> GetState<TState>(string key = null) where TState : BaseState<TContext, TInput>, new()
         {
             TState state = _statesPooler.GetFromPool<TState>(key);
-            state.SetContextAndInput(context, input, this);
+            state.SetContextAndInput(_ctx, _input, this);
             return state;
         }
 
-        public void ReturnState(BaseState<TContext, TInput> pooledState, string key = null)
+        public void ReturnState(State pooledState, string key = null)
         {
             _statesPooler.ReturnToPool(pooledState, key);
         }
 
-        public void Init<TState>(TContext context, TInput input) where TState : BaseState<TContext, TInput>, new()
+
+
+        public void Init<TState>() where TState : BaseState<TContext, TInput>, new()
         {
-            CurState = GetState<TState>(context, input);
+            CurState = GetState<TState>();
             CurState.EnterStates();
         }
 
-        public string GetCurState()
+        public void Update()
+        {
+            CurState.UpdateStates();
+        }
+
+        public void FixedUpdate()
+        {
+            CurState.FixedUpdateStates();
+        }
+
+
+        public string GetCurStateHierarchy()
         {
             return CurState.ToString();
         }

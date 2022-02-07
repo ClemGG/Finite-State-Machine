@@ -7,7 +7,7 @@ namespace Project.Tester
     {
         #region Constructor & IPooled
 
-        public RedCubeState() : base(null, null, null)
+        public RedCubeState()
         {
             //Change _isRootState here
         }

@@ -4,7 +4,7 @@ namespace Project.StateMachine
     {
         #region Constructor & IPooled
 
-        public #SCRIPTNAME#() : base(null, null, null)
+        public #SCRIPTNAME#()
         {
             //Change _isRootState here
             //_isRootState = true;

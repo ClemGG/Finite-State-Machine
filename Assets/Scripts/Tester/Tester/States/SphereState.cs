@@ -14,7 +14,7 @@ namespace Project.Tester
         #region Constructor & IPooled
 
 
-        public SphereState() : base(null, null, null)
+        public SphereState()
         {
             //Change _isRootState here
             _isRootState = true;
@@ -51,7 +51,7 @@ namespace Project.Tester
             //When the spacebar is pressed, we swap to a Cube mesh and a red color.
             if (_input.SwapState)
             {
-                SwitchState(_factory.GetState<CubeState>(_ctx, _input));
+                SwitchState<CubeState>();
             }
         }
         protected override void InitSubState()

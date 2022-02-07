@@ -14,7 +14,7 @@ namespace Project.Tester
     {
         #region Constructor & IPooled
 
-        public CubeState() : base (null, null, null)
+        public CubeState()
         {
             //Change _isRootState here
             _isRootState = true;
@@ -46,14 +46,14 @@ namespace Project.Tester
             //When the spacebar is pressed, we swap to a Sphere mesh and a blue color.
             if (_input.SwapState)
             {
-                SwitchState(_factory.GetState<SphereState>(_ctx, _input));
+                SwitchState<SphereState>();
             }
         }
         protected override void InitSubState()
         {
             //When we enter this RootState, we immediately assign the RedCube SubState to it
             //so that we can color the object in red.
-            SetSubState(_factory.GetState<RedCubeState>(_ctx, _input));
+            SetSubState<RedCubeState>();
         } 
 
         #endregion
