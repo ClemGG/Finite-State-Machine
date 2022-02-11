@@ -75,6 +75,7 @@ namespace Project.Tester
                 );
 
             _factory.Init<SphereState>();
+            print(_factory.GetCurStateHierarchy());
         }
 
         // Update is called once per frame

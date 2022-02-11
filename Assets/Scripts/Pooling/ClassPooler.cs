@@ -73,7 +73,11 @@ namespace Project.Pool
         private static void Dequeue(TBase obj)
         {
             //(IDequeued)obj causes an InvalidCastException if obj does not derive from the interface
-            if(obj is GameObject go)
+            if (obj is IDequeued pooledObj)
+            {
+                pooledObj.OnDequeued();
+            }
+            else if(obj is GameObject go)
             {
                 IDequeued[] ids = go.GetComponents<IDequeued>();
                 for (int i = 0; i < ids.Length; i++)
@@ -81,15 +85,15 @@ namespace Project.Pool
                     ids[i].OnDequeued();
                 }
             }
-            else if (obj is IDequeued pooledObj)
-            {
-                pooledObj.OnDequeued();
-            }
         }
         private static void Enqueue(TBase obj)
         {
             //(IEnqueued)obj causes an InvalidCastException if obj does not derive from the interface
-            if (obj is GameObject go)
+            if (obj is IEnqueued pooledObj)
+            {
+                pooledObj.OnEnqueued();
+            }
+            else if (obj is GameObject go)
             {
                 IEnqueued[] ids = go.GetComponents<IEnqueued>();
                 for (int i = 0; i < ids.Length; i++)
@@ -97,10 +101,7 @@ namespace Project.Pool
                     ids[i].OnEnqueued();
                 }
             }
-            if (obj is IEnqueued pooledObj)
-            {
-                pooledObj.OnEnqueued();
-            }
+            
         }
 
 

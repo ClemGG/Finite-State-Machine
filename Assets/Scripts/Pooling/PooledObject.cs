@@ -9,8 +9,8 @@ namespace Project.Pool
     /// The purpose is to automate the return of references so that they do not need to be returned manually.
     /// A PooledObject can be used like so:
     /// <code>
-    /// MyClass myInstance;
-    /// using(myPool.Get(out myInstance)) // When leaving the scope myInstance will be returned to the pool.
+    /// 
+    /// using(myPool.Get(out MyClass myInstance)) // When leaving the scope myInstance will be returned to the pool.
     /// {
     ///     // Do something with myInstance
     /// }
