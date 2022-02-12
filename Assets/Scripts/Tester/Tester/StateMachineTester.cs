@@ -74,8 +74,7 @@ namespace Project.Tester
                     new Pool<State>(nameof(RedCubeState), 1, () => new RedCubeState())
                 );
 
-            _factory.Init<SphereState>();
-            print(_factory.GetCurStateHierarchy());
+            _factory.Start<SphereState>();
         }
 
         // Update is called once per frame

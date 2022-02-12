@@ -44,25 +44,10 @@ namespace Project.StateMachine
         #endregion
 
 
-        #region Public Methods
+        #region Mono
 
 
-
-        public BaseState<TContext, TInput> GetState<TState>(string key = null) where TState : BaseState<TContext, TInput>, new()
-        {
-            TState state = _statesPooler.GetFromPool<TState>(key);
-            state.SetContextAndInput(_ctx, _input, this);
-            return state;
-        }
-
-        public void ReturnState(State pooledState, string key = null)
-        {
-            _statesPooler.ReturnToPool(pooledState, key);
-        }
-
-
-
-        public void Init<TState>() where TState : BaseState<TContext, TInput>, new()
+        public void Start<TState>() where TState : BaseState<TContext, TInput>, new()
         {
             CurState = GetState<TState>();
             CurState.EnterStates();
@@ -76,6 +61,24 @@ namespace Project.StateMachine
         public void FixedUpdate()
         {
             CurState.FixedUpdateStates();
+        }
+
+
+        #endregion
+
+
+        #region Accessors
+
+        public BaseState<TContext, TInput> GetState<TState>(string key = null) where TState : BaseState<TContext, TInput>, new()
+        {
+            TState state = _statesPooler.GetFromPool<TState>(key);
+            state.SetContextAndInput(_ctx, _input, this);
+            return state;
+        }
+
+        public void ReturnState(State pooledState, string key = null)
+        {
+            _statesPooler.ReturnToPool(pooledState, key);
         }
 
 
@@ -93,7 +96,6 @@ namespace Project.StateMachine
         }
 
         #endregion
-
 
     }
 }

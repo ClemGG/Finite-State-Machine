@@ -19,6 +19,7 @@ namespace Project.StateMachine
 
         #endregion
 
+
         #region Constructor & IPooled
         
 
@@ -89,7 +90,7 @@ namespace Project.StateMachine
             if (_isRootState)
             {
                 //Enters the new state
-                _factory.Init<TState>();
+                _factory.Start<TState>();
             }
             //Otherwise, we transfer that state's SuperState to the new state
             else if(_curSuperState != null)
