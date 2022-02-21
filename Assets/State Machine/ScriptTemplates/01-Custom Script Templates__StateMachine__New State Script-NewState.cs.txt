@@ -1,12 +1,18 @@
 namespace Project.StateMachine
 {
-    public class #SCRIPTNAME# : BaseState<TContext, TInput>
+    public class #SCRIPTNAME# : BaseState<TesterController, TesterEndData>
     {
+        #region Fields
+
+        #endregion
+
+
         #region Constructor & IPooled
 
         public #SCRIPTNAME#()
         {
-            //Change _isRootState here
+            //Change _isRootState here.
+            //If it is false and you don't use this constructor for anything else, you can delete it.
             //_isRootState = true;
         }
 
@@ -17,19 +23,19 @@ namespace Project.StateMachine
 
         protected override void Enter()
         {
-            base.Enter();
+            
         }
         protected override void Exit()
         {
-            base.Exit();
+            
         }
         protected override void Update()
         {
-            base.Update();
+            
         }
         protected override void FixedUpdate() 
         {
-            base.FixedUpdate();
+            
         }
         protected override void CheckSwitchStates()
         {
