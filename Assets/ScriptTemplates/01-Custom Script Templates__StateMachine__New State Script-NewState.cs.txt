@@ -1,8 +1,8 @@
 namespace Project.StateMachine
 {
-    public class #SCRIPTNAME# : BaseState<TesterController, TesterEndData>
+    public class #SCRIPTNAME# : BaseState<TContext, TInput>
     {
-        #region Fields
+        #region Private Fields
 
         #endregion
 
@@ -46,6 +46,9 @@ namespace Project.StateMachine
             
         } 
 
+        #endregion
+
+        #region Private Methods
         #endregion
     }
 }
