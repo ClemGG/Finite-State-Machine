@@ -35,17 +35,6 @@ namespace Project.Tester
 
         #endregion
 
-        #region Accessors
-
-        public Transform T { get { return _t ? _t : _t = transform; } set { _t = value; } }
-        public MeshFilter Filter { get { return _filter ? _filter : _filter = GetComponent<MeshFilter>(); } set { _filter = value; } }
-        public MeshRenderer Renderer { get { return _renderer ? _renderer : _renderer = GetComponent<MeshRenderer>(); } set { _renderer = value; } }
-        private Transform _t;
-        private MeshFilter _filter;
-        private MeshRenderer _renderer;
-
-        #endregion
-
 
         #region Mono
 
@@ -69,9 +58,10 @@ namespace Project.Tester
                 (
                     this,
                     _input,
-                    new Pool<State>(nameof(SphereState), 1, () => new SphereState()),
-                    new Pool<State>(nameof(CubeState), 1, () => new CubeState()),
-                    new Pool<State>(nameof(RedCubeState), 1, () => new RedCubeState())
+                    //You can also directly use the chld states as generic parameters, since IPool is covariant
+                    new Pool<PlayerState>(nameof(SphereState), 1, () => new SphereState()),
+                    new Pool<PlayerState>(nameof(CubeState), 1, () => new CubeState()),
+                    new Pool<PlayerState>(nameof(RedCubeState), 1, () => new RedCubeState())
                 );
 
             _factory.Start<SphereState>();

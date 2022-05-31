@@ -1,5 +1,3 @@
-using Project.StateMachine;
-using Project.Tester.Inputs;
 using UnityEngine;
 
 namespace Project.Tester
@@ -10,7 +8,7 @@ namespace Project.Tester
     //in charge of coloring the mesh in red.
 
 
-    public class CubeState : BaseState<StateMachineTester, TesterInput>
+    public class CubeState : PlayerState
     {
         #region Constructor & IPooled
 
@@ -29,17 +27,17 @@ namespace Project.Tester
         {
             //When the state is entered, we change the mesh to a cube.
             //We change the color in the sub-state for demonstration purposes.
-            _ctx.Filter.mesh = _ctx._cubeMesh;
+            Filter.mesh = _ctx._cubeMesh;
         }
         protected override void Exit()
         {
             //When the state is exited, we reset all modified values if necessary for the next state.
-            _ctx.T.rotation = Quaternion.identity;
+            T.rotation = Quaternion.identity;
         }
         protected override void FixedUpdate() 
         {
             //Spins the cube on the Y axis
-            _ctx.T.Rotate(Vector3.up, _ctx._spinSpeed * Time.fixedDeltaTime);
+            T.Rotate(Vector3.up, _ctx._spinSpeed * Time.fixedDeltaTime);
         }
         protected override void CheckSwitchStates()
         {

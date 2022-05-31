@@ -19,7 +19,7 @@ namespace Project.Pool
 
         #region Constructors
 
-        public ClassPooler(params Pool<TBase>[] newPools)
+        public ClassPooler(params IPool<TBase>[] newPools)
         {
             _poolDictionary = new Dictionary<string, ObjectPool<TBase>>(newPools.Length);
             AddPools(newPools);
@@ -40,7 +40,7 @@ namespace Project.Pool
         }
 
 
-        public void AddPools(params Pool<TBase>[] newPools)
+        public void AddPools(params IPool<TBase>[] newPools)
         {
             for (int i = 0; i < newPools.Length; i++)
             {

@@ -1,9 +1,7 @@
-using Project.StateMachine;
-using Project.Tester.Inputs;
 
 namespace Project.Tester
 {
-    public class RedCubeState : BaseState<StateMachineTester, TesterInput>
+    public class RedCubeState : PlayerState
     {
         #region Constructor & IPooled
 
@@ -20,7 +18,7 @@ namespace Project.Tester
         protected override void Enter()
         {
             //When the state is entered, we change the material's color to red.
-            _ctx.Renderer.material.SetColor("_Color", _ctx._cubeColor);
+            Renderer.material.SetColor("_Color", _ctx._cubeColor);
         }
 
         #endregion

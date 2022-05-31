@@ -34,7 +34,7 @@ namespace Project.StateMachine
         /// <summary>
         /// Use this if this factory onle needs its own pools
         /// </summary>
-        public StateMachine(TContext context, TInput input, params Pool<State>[] pools)
+        public StateMachine(TContext context, TInput input, params IPool<State>[] pools)
         {
             _ctx = context;
             _input = input;
