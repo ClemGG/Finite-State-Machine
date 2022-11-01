@@ -3,10 +3,15 @@
     "rootNamespace": "",
     "references": [
         "GUID:9315681ad75ca7c4eba866b7abbdec84",
-        "GUID:af9f8754dd6902c44b3c8c301f986dff",
-        "GUID:28e56e16b0db37b4c84c2b044a0ba440"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:6042b6a3674dcec4590d730e2cb76547"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor",
+        "WebGL",
+        "WindowsStandalone32",
+        "WindowsStandalone64"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

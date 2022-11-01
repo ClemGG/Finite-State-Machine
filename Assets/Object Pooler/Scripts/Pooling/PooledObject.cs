@@ -3,7 +3,6 @@ using UnityEngine.Pool;
 
 namespace Project.Pool
 {
-
     /// <summary>
     /// A Pooled object wraps a reference to an instance that will be returned to the pool when the Pooled object is disposed.
     /// The purpose is to automate the return of references so that they do not need to be returned manually.
@@ -18,15 +17,27 @@ namespace Project.Pool
     /// </summary>
     public struct PooledObject<T> : IDisposable where T : class
     {
-        readonly T m_ToReturn;
-        readonly ObjectPool<T> m_Pool;
+        #region Variables d'instance
+
+        private readonly T _objToReturn;
+        private readonly ObjectPool<T> _pool;
+
+        #endregion
+
+        #region Constructeurs
 
         internal PooledObject(T value, ObjectPool<T> pool)
         {
-            m_ToReturn = value;
-            m_Pool = pool;
+            _objToReturn = value;
+            _pool = pool;
         }
 
-        void IDisposable.Dispose() => m_Pool.Release(m_ToReturn);
+        #endregion
+
+        #region Fonctions privées
+
+        void IDisposable.Dispose() => _pool.Release(_objToReturn);
+
+        #endregion
     }
 }

@@ -2,14 +2,10 @@ using System;
 
 namespace Project.Pool
 {
-    public interface IPool<out T>
-    {
-        public string Key { get; }
-        public int DefaultCpapcity { get; }
-        public Func<T> CreateFunc { get; }
-    }
-
-
+    /// <summary>
+    /// Conteneur pour le type de classe à cloner
+    /// </summary>
+    /// <typeparam name="T">Un type à cloner</typeparam>
     public class Pool<T> : IPool<T> where T : class
     {
         public string Key { get; }

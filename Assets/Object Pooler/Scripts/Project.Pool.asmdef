@@ -1,10 +1,13 @@
 {
-    "name": "Project.Inputs",
+    "name": "Project.Pool",
     "rootNamespace": "",
-    "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c"
+    "references": [],
+    "includePlatforms": [
+        "Editor",
+        "WebGL",
+        "WindowsStandalone32",
+        "WindowsStandalone64"
     ],
-    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

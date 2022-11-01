@@ -2,9 +2,14 @@
     "name": "Project.StateMachine",
     "rootNamespace": "",
     "references": [
-        "GUID:28e56e16b0db37b4c84c2b044a0ba440"
+        "GUID:6042b6a3674dcec4590d730e2cb76547"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor",
+        "WebGL",
+        "WindowsStandalone32",
+        "WindowsStandalone64"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
