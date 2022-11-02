@@ -3,10 +3,10 @@ using System.Text;
 namespace Project.StateMachine
 {
     /// <summary>
-    /// The base interface all other States will inherit from.
+    /// L'état de base dont tous les autres états devront dériver
     /// </summary>
-    /// <typeparam name="TContext">The script holding all the values to edit.</typeparam>
-    /// <typeparam name="TInput">The Type of the InputSystem to use (Keyboard, Controller, etc.)</typeparam>
+    /// <typeparam name="TContext">Contient les valeurs à lire et éditer.</typeparam>
+    /// <typeparam name="TInput">Le type d'InputSystem à utilsier (Clavier, Manette, etc.)</typeparam>
     public abstract class BaseState<TContext, TInput> : State
     {
         #region Variables d'instance
@@ -14,27 +14,27 @@ namespace Project.StateMachine
         /// <summary>
         /// Contient les valeurs à lire et éditer
         /// </summary>
-        protected TContext _ctx { get; private set; }
+        protected TContext Ctx { get; private set; }
 
         /// <summary>
         /// Lit les actions du joueur
         /// </summary>
-        protected TInput _input { get; private set; }
+        protected TInput Input { get; private set; }
 
         /// <summary>
         /// Instancie et active les états
         /// </summary>
-        protected StateMachine<TContext, TInput> _factory { get; private set; }
+        protected StateMachine<TContext, TInput> Factory { get; private set; }
 
         /// <summary>
         /// L'état suivant dans la hiérarchie
         /// </summary>
-        private BaseState<TContext, TInput> _curSubState { get; set; }
+        private BaseState<TContext, TInput> SubState { get; set; }
 
         /// <summary>
         /// L'état précédent dans la hiérarchie
         /// </summary>
-        private BaseState<TContext, TInput> _curSuperState { get; set; }
+        private BaseState<TContext, TInput> SuperState { get; set; }
 
         #endregion
 
@@ -48,9 +48,9 @@ namespace Project.StateMachine
         /// <param name="factory"> Instancie et active les états</param>
         public void SetContextAndInput(TContext context, TInput input, StateMachine<TContext, TInput> factory)
         {
-            _ctx = context;
-            _input = input;
-            _factory = factory;
+            Ctx = context;
+            Input = input;
+            Factory = factory;
         }
 
         #endregion
@@ -71,13 +71,13 @@ namespace Project.StateMachine
         /// </summary>
         public void ExitStates()
         {
-            if (_curSubState != null)
+            if (SubState != null)
             {
-                _curSubState.ExitStates();
+                SubState.ExitStates();
             }
             Exit();
 
-            _factory.ReturnState(this);
+            Factory.ReturnState(this);
         }
 
         /// <summary>
@@ -86,9 +86,9 @@ namespace Project.StateMachine
         public void UpdateStates()
         {
             Update();
-            if (_curSubState != null)
+            if (SubState != null)
             {
-                _curSubState.UpdateStates();
+                SubState.UpdateStates();
             }
             CheckSwitchStates();
         }
@@ -99,9 +99,9 @@ namespace Project.StateMachine
         public void FixedUpdateStates()
         {
             FixedUpdate();
-            if (_curSubState != null)
+            if (SubState != null)
             {
-                _curSubState.FixedUpdateStates();
+                SubState.FixedUpdateStates();
             }
         }
 
@@ -118,10 +118,10 @@ namespace Project.StateMachine
             }
             sb.Append(GetType().Name);
 
-            if(_curSubState != null)
+            if(SubState != null)
             {
                 sb.Append("/");
-                _curSubState.ToString(sb);
+                SubState.ToString(sb);
             }
 
             return sb.ToString();
@@ -132,9 +132,9 @@ namespace Project.StateMachine
         /// </summary>
         public bool IsInState<TState>() where TState : BaseState<TContext, TInput>
         {
-            if(_curSubState != null)
+            if(SubState != null)
             {
-                return _curSubState.IsInState<TState>();
+                return SubState.IsInState<TState>();
             }
 
             return this is TState;
@@ -167,12 +167,12 @@ namespace Project.StateMachine
             // Si c'est un état racine, on démarre une nouvelle hiérarchie depuis la machine
             if (IsRootState)
             {
-                _factory.Start<TState>();
+                Factory.Start<TState>();
             }
             //Sinon, on transfère notre super-état à ce nouvel état
-            else if (_curSuperState != null)
+            else if (SuperState != null)
             {
-                _curSuperState.SetSubState<TState>();
+                SuperState.SetSubState<TState>();
             }
 
         }
@@ -183,8 +183,8 @@ namespace Project.StateMachine
         /// <typeparam name="TState">L'état du sous-état</typeparam>
         protected void SetSubState<TState>() where TState : BaseState<TContext, TInput>, new()
         {
-            BaseState<TContext, TInput> newSubState = _factory.GetState<TState>();
-            _curSubState = newSubState;
+            BaseState<TContext, TInput> newSubState = Factory.GetState<TState>();
+            SubState = newSubState;
             newSubState.SetSuperState(this);
             newSubState.EnterStates();
         }
@@ -199,7 +199,7 @@ namespace Project.StateMachine
         /// <param name="newSuperState">Le super-état qui dirige celui-ci</param>
         private void SetSuperState(BaseState<TContext, TInput> newSuperState)
         {
-            _curSuperState = newSuperState;
+            SuperState = newSuperState;
         }
 
 

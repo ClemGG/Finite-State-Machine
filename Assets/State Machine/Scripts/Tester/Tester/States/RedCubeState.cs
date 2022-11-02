@@ -18,7 +18,7 @@ namespace Project.Tester
         protected override void Enter()
         {
             //When the state is entered, we change the material's color to red.
-            Renderer.material.SetColor("_Color", _ctx._cubeColor);
+            Renderer.material.SetColor("_Color", Ctx._cubeColor);
         }
 
         #endregion

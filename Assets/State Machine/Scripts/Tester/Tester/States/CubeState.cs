@@ -27,7 +27,7 @@ namespace Project.Tester
         {
             //When the state is entered, we change the mesh to a cube.
             //We change the color in the sub-state for demonstration purposes.
-            Filter.mesh = _ctx._cubeMesh;
+            Filter.mesh = Ctx._cubeMesh;
         }
         protected override void Exit()
         {
@@ -37,12 +37,12 @@ namespace Project.Tester
         protected override void FixedUpdate() 
         {
             //Spins the cube on the Y axis
-            T.Rotate(Vector3.up, _ctx._spinSpeed * Time.fixedDeltaTime);
+            T.Rotate(Vector3.up, Ctx._spinSpeed * Time.fixedDeltaTime);
         }
         protected override void CheckSwitchStates()
         {
             //When the spacebar is pressed, we swap to a Sphere mesh and a blue color.
-            if (_input.SwapState)
+            if (Input.SwapState)
             {
                 SwitchState<SphereState>();
             }

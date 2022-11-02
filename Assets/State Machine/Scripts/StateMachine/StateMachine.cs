@@ -4,94 +4,130 @@ namespace Project.StateMachine
 {
 
     /// <summary>
-    /// This class will be in charge of instantiating and pooling all States of our StateMachine.
+    /// Chargé d'instancier et enregistrer les états de notre machine à états
     /// </summary>
-    /// <typeparam name="TContext">The script holding all the values to edit.</typeparam>
-    /// <typeparam name="TInput">The Type of the InputSystem to use (Keyboard, Controller, etc.)</typeparam>
+    /// <typeparam name="TContext">Contient les valeurs à lire et éditer.</typeparam>
+    /// <typeparam name="TInput">Le type d'InputSystem à utilsier (Clavier, Manette, etc.)</typeparam>
     public class StateMachine<TContext, TInput>
     {
-        #region Accessors
+        #region Variables d'instance
 
-        private BaseState<TContext, TInput> CurState { get; set; }
-        private TContext _ctx { get; set; }
-        private TInput _input { get; set; }
-        private ClassPooler<State> _statesPooler { get; set; }
+        /// <summary>
+        /// L'état racine actuel
+        /// </summary>
+        private BaseState<TContext, TInput> CurRootState { get; set; }
+
+        /// <summary>
+        /// Contient les valeurs à lire et éditer
+        /// </summary>
+        private TContext Ctx { get; set; }
+
+        /// <summary>
+        /// Lit les actions du joueur
+        /// </summary>
+        private TInput Input { get; set; }
+
+        /// <summary>
+        /// La réserve contenant les états
+        /// </summary>
+        private ClassPooler<State> StatesPooler { get; set; }
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Use this if multiple factories use the same ClassPooler
+        /// A utiliser si plusieurs machines utilisent le même ClassPooler
         /// </summary>
         public StateMachine(TContext context, TInput input, ClassPooler<State> statesPooler)
         {
-            _ctx = context;
-            _input = input;
-            _statesPooler = statesPooler;
+            Ctx = context;
+            Input = input;
+            StatesPooler = statesPooler;
         }
 
         /// <summary>
-        /// Use this if this factory onle needs its own pools
+        /// A utiliser si la machine a besoin de son propre ClassPooler
         /// </summary>
         public StateMachine(TContext context, TInput input, params IPool<State>[] pools)
         {
-            _ctx = context;
-            _input = input;
-            _statesPooler = new ClassPooler<State>(pools);
+            Ctx = context;
+            Input = input;
+            StatesPooler = new ClassPooler<State>(pools);
         }
 
         #endregion
-
 
         #region Mono
 
-
+        /// <summary>
+        /// Crée une nouvelle hiérarchie d'états
+        /// </summary>
+        /// <typeparam name="TState">Le type de l'état racine</typeparam>
         public void Start<TState>() where TState : BaseState<TContext, TInput>, new()
         {
-            CurState = GetState<TState>();
-            CurState.EnterStates();
-        }
-
-        public void Update()
-        {
-            CurState.UpdateStates();
-        }
-
-        public void FixedUpdate()
-        {
-            CurState.FixedUpdateStates();
-        }
-
-
-        #endregion
-
-
-        #region Accessors
-
-        public BaseState<TContext, TInput> GetState<TState>(string key = null) where TState : BaseState<TContext, TInput>, new()
-        {
-            TState state = _statesPooler.GetFromPool<TState>(key);
-            state.SetContextAndInput(_ctx, _input, this);
-            return state;
-        }
-
-        public void ReturnState(State pooledState, string key = null)
-        {
-            _statesPooler.ReturnToPool(pooledState, key);
-        }
-
-        public string GetCurStateHierarchy()
-        {
-            return CurState.ToString();
+            CurRootState = GetState<TState>();
+            CurRootState.EnterStates();
         }
 
         /// <summary>
-        /// Retrives the bottommost state in the hierarchy and returns true if its type matches the parameter type.
+        /// Callback appelé quand on màj la machine dans une méthode Update()
+        /// </summary>
+        public void Update()
+        {
+            CurRootState.UpdateStates();
+        }
+
+        /// <summary>
+        /// Callback appelé quand on màj la machine dans une méthode FixedUpdate()
+        /// </summary>
+        public void FixedUpdate()
+        {
+            CurRootState.FixedUpdateStates();
+        }
+
+        #endregion
+
+        #region Accessors
+
+        /// <summary>
+        /// Récupère un état de la réserve pour l'ajouter à la hiérarchie
+        /// </summary>
+        /// <typeparam name="TState">Le type de l'état à récupérer</typeparam>
+        /// <param name="key">Le nom de l'état pour le retrouver dans la réserve, si besoin</param>
+        public BaseState<TContext, TInput> GetState<TState>(string key = null) where TState : BaseState<TContext, TInput>, new()
+        {
+            TState state = StatesPooler.GetFromPool<TState>(key);
+            state.SetContextAndInput(Ctx, Input, this);
+            return state;
+        }
+
+        /// <summary>
+        /// Renvoie l'état dans la réserve lorsqu'on ne l'utilise plus
+        /// </summary>
+        /// <param name="pooledState"></param>
+        /// <param name="key"></param>
+        public void ReturnState(State pooledState, string key = null)
+        {
+            StatesPooler.ReturnToPool(pooledState, key);
+        }
+
+        /// <summary>
+        /// Affiche le nom de tous les états de la hiérarchie
+        /// </summary>
+        /// <param name="sb">Le StringBuilder, à laisser null</param>
+        /// <returns>Une string au format "Etat1/Etat2/etc."</returns>
+        public string GetCurStateHierarchy()
+        {
+            return CurRootState.ToString();
+        }
+
+        /// <summary>
+        /// Récupère l'état tout en bas de la hiérarchie et renvoie TRUE s'il est du type renseigné
         /// </summary>
         public bool IsInState<TState>() where TState : BaseState<TContext, TInput>
         {
-            return CurState.IsInState<TState>();
+            return CurRootState.IsInState<TState>();
         }
 
         #endregion

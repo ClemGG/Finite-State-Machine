@@ -26,8 +26,8 @@ namespace Project.Tester
         protected override void Enter()
         {
             //When the state is entered, we change the mesh to a sphere and we color it in blue.
-            Filter.mesh = _ctx._sphereMesh;
-            Renderer.material.SetColor("_Color", _ctx._sphereColor);
+            Filter.mesh = Ctx._sphereMesh;
+            Renderer.material.SetColor("_Color", Ctx._sphereColor);
         }
         protected override void Exit()
         {
@@ -37,7 +37,7 @@ namespace Project.Tester
         protected override void Update()
         {
             //Sets the value of the new scale between O and 3 over time.
-            _pingPongValue = Mathf.PingPong(Time.time * _ctx._scaleSpeed, 3f);
+            _pingPongValue = Mathf.PingPong(Time.time * Ctx._scaleSpeed, 3f);
         }
         protected override void FixedUpdate() 
         {
@@ -47,7 +47,7 @@ namespace Project.Tester
         protected override void CheckSwitchStates()
         {
             //When the spacebar is pressed, we swap to a Cube mesh and a red color.
-            if (_input.SwapState)
+            if (Input.SwapState)
             {
                 SwitchState<CubeState>();
             }
