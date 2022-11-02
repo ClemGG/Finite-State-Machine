@@ -15,7 +15,7 @@ namespace Project.Tester
         public SphereState()
         {
             //Change _isRootState here
-            _isRootState = true;
+            IsRootState = true;
         }
 
         #endregion

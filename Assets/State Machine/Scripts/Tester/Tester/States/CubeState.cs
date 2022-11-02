@@ -15,7 +15,7 @@ namespace Project.Tester
         public CubeState()
         {
             //Change _isRootState here
-            _isRootState = true;
+            IsRootState = true;
         }
 
         #endregion

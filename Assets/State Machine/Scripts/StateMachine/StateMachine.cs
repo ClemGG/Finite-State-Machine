@@ -81,7 +81,6 @@ namespace Project.StateMachine
             _statesPooler.ReturnToPool(pooledState, key);
         }
 
-
         public string GetCurStateHierarchy()
         {
             return CurState.ToString();

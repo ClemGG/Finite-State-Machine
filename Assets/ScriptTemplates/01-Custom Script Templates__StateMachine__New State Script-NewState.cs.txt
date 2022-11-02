@@ -1,13 +1,14 @@
 namespace Project.StateMachine
 {
-    public class #SCRIPTNAME# : BaseState<TContext, TInput>
+    public sealed class #SCRIPTNAME# : BaseState<TContext, TInput>
     {
-        #region Private Fields
+        #region Variables d'instance
+
+
 
         #endregion
 
-
-        #region Constructor & IPooled
+        #region Constructeur
 
         public #SCRIPTNAME#()
         {
@@ -18,37 +19,44 @@ namespace Project.StateMachine
 
         #endregion
 
-
-        #region State Methods
+        #region Fonctions privées
 
         protected override void Enter()
         {
             
         }
+
+        protected override void InitSubState()
+        {
+            
+        }
+
         protected override void Exit()
         {
             
         }
+
         protected override void Update()
         {
             
         }
+
         protected override void FixedUpdate() 
         {
             
         }
+
         protected override void CheckSwitchStates()
         {
             
         }
-        protected override void InitSubState()
-        {
-            
-        } 
 
         #endregion
 
         #region Private Methods
+
+
+
         #endregion
     }
 }
